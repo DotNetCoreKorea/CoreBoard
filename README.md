@@ -8,7 +8,7 @@ For study ^^..
 
 
 
-## Mileston
+## Milestone
 
 We want to conquer Dotnet Core. So currenly, we study as divide-and-conquer to conquer Dotnet Core.
 
