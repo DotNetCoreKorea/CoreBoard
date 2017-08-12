@@ -1,0 +1,71 @@
+﻿@using CoreBoard.Services
+@model PostPostModel
+@inject ISessionService Session
+
+<h2>게시글 수정</h2>
+<div class="text-danger">@Html.ValidationSummary()</div>
+<form method="post" class="form-horizontal" onsubmit="frm_submit()">
+    @Html.AntiForgeryToken()
+    <div class="form-group">
+        @Html.LabelFor(m => m.Title, new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-8">
+            @Html.TextBoxFor(m => m.Title, new { @class = "form-control", placeholder = "제목을 입력하세요" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Content, new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-8">
+            <div id="editor">@Html.Raw(Model.Content)</div>
+            @Html.HiddenFor(m => m.Content)
+        </div>
+    </div>
+    @if (!Session.IsLoggedIn)
+    {
+        <div class="form-group">
+            @Html.LabelFor(m => m.WriterName, new { @class = "col-sm-2 control-label" })
+            <div class="col-sm-8">
+                @Html.TextBoxFor(m => m.WriterName, new { @class = "form-control", placeholder = "이름을 입력하세요" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Password, new { @class = "col-sm-2 control-label" })
+            <div class="col-sm-8">
+                @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "비밀번호를 입력하세요" })
+            </div>
+        </div>
+    }
+    <div class="form-group">
+        <div class="col-sm-4 col-sm-offset-2">
+            <input type="submit" value="수정" class="btn btn-success" />
+        </div>
+    </div>
+</form>
+
+<link href="https://cdn.quilljs.com/1.3.0/quill.snow.css" rel="stylesheet">
+
+@section Scripts{
+    <script src="https://cdn.quilljs.com/1.3.0/quill.js"></script>
+
+    <!-- Initialize Quill editor -->
+    <script>
+        var quill = new Quill('#editor', {
+            theme: 'snow',
+            modules: {
+                toolbar: [
+                    [{ header: [1, 2, false] }],
+                    ['bold', 'italic', 'underline', 'strike'],
+                    [{ 'color': [] }, { 'background': [] }],
+                    [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'indent': '-1' }, { 'indent': '+1' }],
+                    ['direction', { 'align': [] }],
+                    ['link', 'image', 'video']
+                ]
+            },
+            placeholder: '내용을 입력하세요'
+        });
+
+        function frm_submit() {
+            var html = $('#editor')[0].firstChild.innerHTML;
+            $('#Content').val(html);
+        }
+    </script>
+}

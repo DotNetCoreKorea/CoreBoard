@@ -1,0 +1,23 @@
+﻿@using Microsoft.AspNetCore.Mvc
+@model Post[]
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>제목</th>
+        <th>작성자</th>
+        <th>작성일시</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var post in Model)
+    {
+        <tr>
+            <td>@post.Id</td>
+            <td><a href="@Url.Action("Details", new { id=post.Id })">@post.Title</a></td>
+            <td>@(post.Writer?.NickName??post.WriterName)</td>
+            <td>@post.CreatedAt.ToShortTimespan()</td>
+        </tr>
+    }
+    </tbody>
+</table>
