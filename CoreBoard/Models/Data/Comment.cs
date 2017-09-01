@@ -1,18 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace CoreBoard.Models.Data
 {
-    public class Post
+    public class Comment
     {
         public long Id { get; set; }
-
-        [DisplayName("제목")]
-        public string Title { get; set; }
-
+        
         [DisplayName("내용")]
         public string Content { get; set; }
 
@@ -25,6 +24,8 @@ namespace CoreBoard.Models.Data
         public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.Now;
         public DateTimeOffset? UpdatedAt { get; set; }
 
-        public ICollection<Comment> Comments { get; set; } = new HashSet<Comment>();
+        [ForeignKey(nameof(PostId))]
+        public Post Post { get; set; }
+        public long PostId { get; set; }
     }
 }
